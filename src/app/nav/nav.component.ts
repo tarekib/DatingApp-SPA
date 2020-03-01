@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { error } from 'protractor';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   model: any = {};
 
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -20,9 +21,10 @@ export class NavComponent implements OnInit {
   login() {
     this.authService.login(this.model).subscribe(next => {
       console.log('Logged in successfully');
-    // tslint:disable-next-line: no-shadowed-variable
     }, error => {
       console.log('Failed to login');
+    }, () => {
+      this.router.navigate(['/members']);
     });
   }
 
@@ -34,5 +36,6 @@ export class NavComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     console.log('logged out');
+    this.router.navigate(['home']);
   }
 }
