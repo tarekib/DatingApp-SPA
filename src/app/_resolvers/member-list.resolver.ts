@@ -7,7 +7,9 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class MemberListResolver implements Resolve<User[]> {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
     // tslint:disable-next-line: no-string-literal
