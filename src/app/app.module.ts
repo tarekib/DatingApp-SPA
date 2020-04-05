@@ -22,6 +22,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { MemberEditComponent } from './member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -43,7 +45,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       MemberCardComponent,
       MemberDetailComponent,
       ListsComponent,
-      MessagesComponent
+      MessagesComponent,
+      MemberEditComponent
    ],
    imports: [
       BrowserModule,
@@ -67,6 +70,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       ErrorInterceptorProvider,
       MemberDetailResolver,
       MemberListResolver,
+      MemberEditResolver,
       { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
    ],
    bootstrap: [
