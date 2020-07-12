@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { User } from '../_models/user';
 import { ActivatedRoute } from '@angular/router';
+import { Pagination, PaginatedResult } from '../_models/Pagination';
 
 @Component({
   selector: 'app-member-list',
@@ -10,23 +11,33 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MemberListComponent implements OnInit {
   users: User[];
-  constructor(private route: ActivatedRoute) {}
+  pagination: Pagination;
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       // tslint:disable-next-line: no-string-literal
-      this.users = data['users'];
+      this.users = data['users'].result;
+      this.pagination = data['users'].pagination;
     });
   }
 
-  // loadUsers() {
-  //   this.userService.getUsers().subscribe(
-  //     (users: User[]) => {
-  //       this.users = users;
-  //     },
-  //     error => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  pageChanged(event: any): void {
+    this.pagination.CurrentPage = event.page;
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.userService
+    .getUsers(this.pagination.CurrentPage, this.pagination.ItemsPerPage)
+    .subscribe(
+      (res: PaginatedResult<User[]>) => {
+        this.users = res.result;
+        this.pagination = res.pagination;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
 }
