@@ -13,10 +13,10 @@ import { JsonPipe } from '@angular/common';
 export class MemberListComponent implements OnInit {
   users: User[];
   user: User = JSON.parse(localStorage.getItem('user'));
-  genderList = [{value: 'male', display: 'Males'}, {value: 'female', display: 'Females'}];
+  genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Females' }];
   userParams: any = {};
   pagination: Pagination;
-  constructor(private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -44,15 +44,15 @@ export class MemberListComponent implements OnInit {
 
   loadUsers() {
     this.userService
-    .getUsers(this.pagination.CurrentPage, this.pagination.ItemsPerPage, this.userParams)
-    .subscribe(
-      (res: PaginatedResult<User[]>) => {
-        this.users = res.result;
-        // this.pagination = res.pagination;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+      .getUsers(this.pagination.CurrentPage, this.pagination.ItemsPerPage, this.userParams)
+      .subscribe(
+        (res: PaginatedResult<User[]>) => {
+          this.users = res.result;
+          // this.pagination = res.pagination;
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
 }
